@@ -6,7 +6,6 @@
   <img src="https://img.shields.io/badge/Flask-2.0.1+-green.svg" alt="Flask 2.0.1+">
   <img src="https://img.shields.io/badge/SQLAlchemy-1.4+-orange.svg" alt="SQLAlchemy 1.4+">
   <img src="https://img.shields.io/badge/REST-API-red.svg" alt="REST API">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
 </div>
 
 <p align="center">
