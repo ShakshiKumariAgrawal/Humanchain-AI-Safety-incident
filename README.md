@@ -1,4 +1,3 @@
-# Humanchain-AI-Safety-incident
 # 🛡️ AI Safety Incident Log API
 
 <div align="center">
@@ -6,6 +5,7 @@
   <img src="https://img.shields.io/badge/Flask-2.0.1+-green.svg" alt="Flask 2.0.1+">
   <img src="https://img.shields.io/badge/SQLAlchemy-1.4+-orange.svg" alt="SQLAlchemy 1.4+">
   <img src="https://img.shields.io/badge/REST-API-red.svg" alt="REST API">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
 </div>
 
 <p align="center">
@@ -50,121 +50,9 @@ The implementation prioritizes clean code architecture, RESTful design principle
 - **Documentation**: OpenAPI/Swagger specification
 
 
-📋 API Endpoints
-1. Get All Incidents
-
-Method: GET
-Path: /incidents
-Response: 200 OK with JSON array of all incidents
-
-json[
-  { "id": 1, "title": "Model Hallucination", "description": "AI generated factually incorrect information", "severity": "Medium", "reported_at": "2025-04-25T14:30:00Z" },
-  { "id": 2, "title": "Data Breach", "description": "Unauthorized access to training data", "severity": "High", "reported_at": "2025-04-26T09:15:00Z" }
-]
-2. Create New Incident
-
-Method: POST
-Path: /incidents
-Request Body:
-
-json{
-  "title": "New Incident Title",
-  "description": "Detailed description here.",
-  "severity": "Medium"
-}
-
-Response: 201 Created with the newly created incident
-
-json{
-  "id": 3, 
-  "title": "New Incident Title", 
-  "description": "Detailed description here.", 
-  "severity": "Medium", 
-  "reported_at": "2025-04-27T10:15:30Z"
-}
-3. Get Specific Incident
-
-Method: GET
-Path: /incidents/{id}
-Path Parameter: id - The unique identifier of the incident
-Response: 200 OK with requested incident details or 404 Not Found
-
-json{
-  "id": 1, 
-  "title": "Model Hallucination", 
-  "description": "AI generated factually incorrect information", 
-  "severity": "Medium", 
-  "reported_at": "2025-04-25T14:30:00Z"
-}
-4. Delete Incident
-
-Method: DELETE
-Path: /incidents/{id}
-Path Parameter: id - The unique identifier of the incident
-Response: 204 No Content on success or 404 Not Found
-
-🔌 Installation & Setup
-Prerequisites
-
-Python 3.8 or higher
-pip (Python package manager)
-
-Step 1: Clone the repository
-bashgit clone <repository-url>
-cd ai-safety-incident-log
-Step 2: Create and activate a virtual environment (recommended)
-bashpython -m venv venv
-# On Windows
-venv\Scripts\activate
-# On macOS/Linux
-source venv/bin/activate
-Step 3: Install dependencies
-bashpip install -r requirements.txt
-This will install all required packages:
-
-Flask
-Flask-SQLAlchemy
-SQLite3 (built into Python)
-Other dependencies as needed
-
-Step 4: Database Configuration
-The application uses SQLite by default, which doesn't require separate installation. The database configuration is set in app.py:
-python# Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///incidents.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-If you prefer to use environment variables for configuration (recommended for production), you can modify app.py to use:
-pythonapp.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///incidents.db')
-Step 5: Set up the database schema and initial data
-bashpython setup_db.py
-This script will:
-
-Create the SQLite database file (incidents.db)
-Create the necessary tables using SQLAlchemy models
-Populate the database with 2-3 sample incidents as required
-
-The database schema includes:
-
-id: Integer, Primary Key, Auto-increment
-title: String (100), Not Null
-description: Text, Not Null
-severity: String (10), Not Null, Constraint to ["Low", "Medium", "High"]
-reported_at: DateTime, Not Null, Default: current timestamp
-
-Step 6: Run the application
-bashpython app.py
-The API server will start running at http://localhost:5000
-🧪 Testing the API with curl
-Get all incidents
-bashcurl -X GET http://localhost:5000/incidents
-Get a specific incident
-bashcurl -X GET http://localhost:5000/incidents/1
-Create a new incident
-bashcurl -X POST http://localhost:5000/incidents \
-  -H "Content-Type: application/json" \
-  -d '{"title":"API Error","description":"Unexpected response from model API","severity":"High"}'
-Delete an incident
-bashcurl -X DELETE http://localhost:5000/incidents/1
 📂 Project Structure
+
+```
 ai-safety-incident-log/
 ├── app.py                 # Main application file with Flask configuration
 ├── models.py              # Database models using SQLAlchemy
@@ -175,30 +63,273 @@ ai-safety-incident-log/
 ├── static/                # Static files (CSS, JS)
 ├── requirements.txt       # Project dependencies
 └── README.md              # This file
-🔍 Design Decisions and Challenges
-Design Decisions
+```
 
-Flask + SQLAlchemy: Chosen for rapid development and simplicity while maintaining good structure through ORM.
-SQLite Database: Selected for ease of setup and portability. No additional configuration required for testing.
-Separation of Concerns: Split code into multiple files (models, routes, app configuration) for better organization.
-Auto-timestamps: Implemented automatic timestamp generation on new incidents to ensure data consistency.
-Input Validation: Added validation for required fields and severity values to maintain data integrity.
-HTML Interface: Created a simple web interface in addition to API endpoints for easier demonstration.
+## 📚 API Documentation
 
-Challenges and Solutions
+### Endpoints Overview
 
-Validation Handling: Implemented custom validation to ensure severity is one of the allowed values while keeping the code clean.
-DateTime Formatting: Ensured consistent ISO format for datetime fields in JSON responses.
-Error Handling: Implemented comprehensive error handling for various error scenarios (404, 400, 500) to provide clear feedback.
-Database Integration: Ensured proper integration between Flask and SQLAlchemy for efficient database operations.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/incidents` | Retrieve all incidents |
+| POST | `/incidents` | Create a new incident |
+| GET | `/incidents/{id}` | Retrieve a specific incident |
+| DELETE | `/incidents/{id}` | Delete a specific incident |
 
-🔄 Potential Improvements
+### Detailed API Specifications
 
-Add authentication and authorization
-Implement more sophisticated filtering and pagination for the GET endpoints
-Add unit and integration tests
-Implement logging for application events
-Add update functionality (PUT/PATCH endpoints)
+#### 1. Get All Incidents
+
+**Request:**
+```
+GET /incidents
+```
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "title": "Prompt Injection Vulnerability",
+    "description": "Model exposed to potential prompt injection through unfiltered user input",
+    "severity": "High",
+    "reported_at": "2025-04-25T14:32:26Z"
+  },
+  {
+    "id": 2,
+    "title": "Data Hallucination",
+    "description": "Model generated factually incorrect information about medical procedures",
+    "severity": "Medium",
+    "reported_at": "2025-04-26T09:18:43Z"
+  }
+]
+```
+
+**Status Codes:**
+- `200 OK`: Successfully retrieved incidents
+
+#### 2. Create New Incident
+
+**Request:**
+```
+POST /incidents
+Content-Type: application/json
+
+{
+  "title": "Authentication Bypass",
+  "description": "AI system incorrectly authenticated user with similar voice pattern",
+  "severity": "High"
+}
+```
+
+**Response:**
+```json
+{
+  "id": 3,
+  "title": "Authentication Bypass",
+  "description": "AI system incorrectly authenticated user with similar voice pattern",
+  "severity": "High",
+  "reported_at": "2025-04-27T11:42:17Z"
+}
+```
+
+**Status Codes:**
+- `201 Created`: Successfully created the incident
+- `400 Bad Request`: Invalid input (missing fields or invalid severity)
+
+#### 3. Get Specific Incident
+
+**Request:**
+```
+GET /incidents/1
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "title": "Prompt Injection Vulnerability",
+  "description": "Model exposed to potential prompt injection through unfiltered user input",
+  "severity": "High",
+  "reported_at": "2025-04-25T14:32:26Z"
+}
+```
+
+**Status Codes:**
+- `200 OK`: Successfully retrieved the incident
+- `404 Not Found`: Incident with specified ID not found
+
+#### 4. Delete Incident
+
+**Request:**
+```
+DELETE /incidents/2
+```
+
+**Response:**
+```
+204 No Content
+```
+
+**Status Codes:**
+- `204 No Content`: Successfully deleted the incident
+- `404 Not Found`: Incident with specified ID not found
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
+- Git (optional, for cloning the repository)
+
+### Step 1: Clone or download the repository
+```bash
+git clone https://github.com/yourusername/ai-safety-incident-log.git
+cd ai-safety-incident-log
+```
+
+### Step 2: Create and activate a virtual environment
+```bash
+python -m venv venv
+
+# On Windows
+venv\Scripts\activate
+
+# On macOS/Linux
+source venv/bin/activate
+```
+
+### Step 3: Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Step 4: Set up the database
+```bash
+python setup_db.py
+```
+
+This script will:
+1. Create the necessary database tables
+2. Pre-populate the database with sample incidents
+3. Display a confirmation message when complete
+
+### Step 5: Run the application
+```bash
+python run.py
+```
+
+The API server will start on http://localhost:5000
+
+## 💾 Database Configuration
+
+The application uses SQLAlchemy to interact with the database, making it compatible with various database engines.
+
+### Default Configuration (SQLite)
+
+For development and testing, the application uses SQLite by default:
+
+```python
+# config.py
+class Config:
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///incidents.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+```
+
+### Using Environment Variables (Recommended for Production)
+
+For production deployments, configure the database using environment variables:
+
+```bash
+# Set the DATABASE_URL environment variable
+export DATABASE_URL="postgresql://username:password@localhost/incidents_db"
+```
+
+```python
+# In config.py
+import os
+
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+```
+
+### Database Schema
+
+The incident data model includes:
+
+```
+Table: incidents
+--------------------------
+id          | INTEGER     | PRIMARY KEY, AUTOINCREMENT
+title       | VARCHAR(100)| NOT NULL
+description | TEXT        | NOT NULL
+severity    | VARCHAR(10) | NOT NULL, CHECK IN ('Low', 'Medium', 'High')
+reported_at | TIMESTAMP   | NOT NULL, DEFAULT CURRENT_TIMESTAMP
+```
+
+## 🧪 Running Tests
+
+The project includes a comprehensive test suite to ensure all endpoints work correctly:
+
+```bash
+pytest
+```
+
+For test coverage information:
+
+```bash
+pytest --cov=app tests/
+```
+
+## 🔍 Design Decisions & Challenges
+
+### Architectural Decisions
+
+1. **Flask Framework**: Selected for its lightweight nature and flexibility, allowing for rapid development without sacrificing control over the application structure.
+
+2. **SQLAlchemy ORM**: Chosen to abstract database operations and provide a clean, Pythonic interface for data manipulation while maintaining compatibility with multiple database engines.
+
+3. **Repository Pattern**: Implemented to separate business logic from data access, making the codebase more maintainable and testable.
+
+4. **Input Validation**: Built robust validation to ensure data integrity, particularly for the severity field which must be one of the allowed values.
+
+5. **ISO 8601 DateTime Format**: Standardized timestamp format to ensure consistency across all API responses.
+
+### Challenges & Solutions
+
+1. **Error Handling Consistency**
+
+   *Challenge*: Implementing consistent error responses across all endpoints while keeping code DRY.
+   
+   *Solution*: Created custom error handler functions and utilized Flask's error handling decorators to maintain consistency.
+
+2. **Request Validation**
+
+   *Challenge*: Balancing thorough input validation with clean code.
+   
+   *Solution*: Implemented validator functions that return clear error messages for invalid inputs, making debugging easier for API consumers.
+
+3. **Timestamp Handling**
+
+   *Challenge*: Ensuring consistent timestamp formatting between database storage and API responses.
+   
+   *Solution*: Configured SQLAlchemy to handle UTC timestamps and implemented custom serialization for JSON responses.
+
+## 🔮 Future Enhancements
+
+With additional time, the following features could be implemented to enhance the system:
+
+1. **Authentication & Authorization**: Implement JWT-based authentication to secure the API.
+
+2. **Pagination**: Add support for paginated results to handle large datasets efficiently.
+
+3. **Advanced Filtering**: Allow filtering incidents by various parameters (date range, severity, etc.).
+
+4. **API Versioning**: Implement versioning to ensure backward compatibility as the API evolves.
+
+5. **Audit Logging**: Track changes to incidents with a detailed audit trail.
+
+6. **Webhooks**: Implement webhook notifications for incident creation and updates.
 
 ---
 
