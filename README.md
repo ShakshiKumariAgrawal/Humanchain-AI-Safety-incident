@@ -30,6 +30,9 @@ This project implements a RESTful API service for logging and managing AI safety
 
 The implementation prioritizes clean code architecture, RESTful design principles, and efficient data persistence while maintaining excellent error handling and input validation.
 
+🌟 Live Demo
+Demo Link: https://humanchain-ai-safety-incident.vercel.app/
+
 ## ✨ Features
 
 - **Complete CRUD Operations** for AI safety incidents
